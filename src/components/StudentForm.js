@@ -20,6 +20,15 @@ const style = (theme) => ({
       margin: theme.spacing(1),
     },
   },
+  container: {
+    display: "flex",
+    flexWrap: "wrap",
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
 });
 
 const initialFieldValues = {
@@ -49,7 +58,11 @@ const StudentForm = ({ classes, ...props }) => {
     if ("username" in fieldValues)
       temp.username = fieldValues.username ? "" : "This field is required.";
     if ("password" in fieldValues)
-      temp.password = fieldValues.password ? "" : "This field is required.";
+      temp.password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{6,30}$/.test(
+        values.password
+      )
+        ? ""
+        : "Insert password with atleast 1 upper case, lower case, number and special charactor ";
 
     //set the errors to the state variable
     setErrors({
@@ -107,6 +120,9 @@ const StudentForm = ({ classes, ...props }) => {
             value={values.code}
             onChange={handleChange}
             {...(errors.code && { error: true, helperText: errors.code })}
+            inputProps={{
+              maxLength: 10,
+            }}
           />
           <TextField
             id="firstName"
@@ -133,6 +149,11 @@ const StudentForm = ({ classes, ...props }) => {
           <TextField
             id="dob"
             variant="outlined"
+            type="date"
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
             label="Date of Birth"
             value={values.dob}
             onChange={handleChange}
@@ -161,26 +182,30 @@ const StudentForm = ({ classes, ...props }) => {
             })}
           />
 
-          <div>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              className={classes.smMargin}
-              style={{ margin: "5px" }}
-              size="small"
-            >
-              Submit
-            </Button>
-            <Button
-              variant="contained"
-              className={classes.smMargin}
-              size="small"
-              style={{ margin: "5px" }}
-              onClick={resetForm}
-            >
-              Reset
-            </Button>
+          <div style={{ width: "180px" }} align="center">
+            <div style={{ display: "inline-block" }}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                className={classes.smMargin}
+                style={{ margin: "5px" }}
+                size="small"
+              >
+                Submit
+              </Button>
+            </div>
+            <div style={{ display: "inline-block" }}>
+              <Button
+                variant="contained"
+                className={classes.smMargin}
+                size="small"
+                style={{ margin: "5px" }}
+                onClick={resetForm}
+              >
+                Reset
+              </Button>
+            </div>
           </div>
         </Grid>
       </Grid>

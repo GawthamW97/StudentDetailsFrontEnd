@@ -2,7 +2,7 @@ import axios from "axios";
 
 const baseURL = "http://localhost:55399/api/"; // The URL of the ASP.NET CORE server
 
-export default {
+const api = {
   Student(url = baseURL + "Student/") {
     return {
       fetchAll: () => axios.get(url), //GET::api/Student
@@ -13,3 +13,5 @@ export default {
     };
   },
 };
+
+export default api;
